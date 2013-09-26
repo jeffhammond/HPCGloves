@@ -19,16 +19,16 @@ TESTS   = test_type_contig.x
 all: $(LIBRARY) $(TESTS)
 
 
-%.x: %.c bigmpi_mpix.h
-	$(CC) $(CFLAGS) $< $(LIBRARY) -o $@
-
-
 $(LIBRARY): $(OBJECTS)
 	-ar -r $(LIBRARY) $(OBJECTS)
 
 
+%.x: %.c bigmpix.h
+	$(CC) $(CFLAGS) $< $(LIBRARY) -o $@
+
+
 %.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 
 clean: 
@@ -38,5 +38,6 @@ clean:
 realclean: clean 
 	-rm -f $(TESTS) 
 	-rm -f $(LIBRARY)
+	-rm -rf *.dSYM # Mac only
 
 

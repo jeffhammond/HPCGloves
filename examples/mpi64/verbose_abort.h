@@ -51,7 +51,7 @@ static void MPIX_Verbose_abort(int errorcode)
 /* Assume MPI_ERRORS_ARE_FATAL, which is the default behavior. */
 /* Define MPI_ASSERT to (void)0 in case someone foolishly tries
  * to check its return value. */
-#define MPI_ASSERT(rc) ((void)0)
+#define MPI_ASSERT(rc) (rc)
 #endif
 
 #endif // INCLUDE_VERBOSE_ABORT_H
