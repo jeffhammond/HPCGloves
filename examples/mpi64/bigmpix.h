@@ -15,6 +15,7 @@
 #include <limits.h>
 
 #include <mpi.h>
+#include "verbose_abort.h"
 
 int MPIX_Type_contiguous_x(MPI_Count count, MPI_Datatype oldtype, MPI_Datatype * newtype);
 

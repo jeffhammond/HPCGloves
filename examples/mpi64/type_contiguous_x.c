@@ -10,15 +10,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <string.h>
+
+/* Defines INT32_MAX, which is not appropriate for int types. */
+#include <stdint.h>
+
+/* Defines INT_MAX */
 #include <limits.h>
 
 #include <mpi.h>
-#include "verbose_abort.h"
 #include "bigmpix.h"
 
-#define BIGMPI_MAX 2147483648
+#define BIGMPI_MAX INT_MAX
 
 /*
  * Synopsis
