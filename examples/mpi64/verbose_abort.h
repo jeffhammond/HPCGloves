@@ -28,19 +28,18 @@ static void MPIX_Verbose_abort(int errorcode)
     int rank;
     MPI_Comm_rank(MPI_COMM_RANK, &rank);
 
-    int errorclass;
-    int resultlen;
     char errorstring[MPI_MAX_ERROR_STRING];
-
     memset(errorstring, 0, MPI_MAX_ERROR_STRING); /* optional */
 
+    int errorclass;
     MPI_Error_class(errorcode, &errorclass);
-    fprintf(stderr, "%d: MPI failed (%d: %s) \n", rank, errorclass, errorstring);
 
-    MPI_Error_string(errorcode, char *string, int *resultlen)
-    fprintf(stderr, "%d: MPI failed (%d: %s) \n", rank, errorclass, errorstring);
+    int resultlen;
+    MPI_Error_string(errorcode, errorstring, &resultlen);
 
+    fprintf(stderr, "%d: MPI failed (%d: %s) \n", rank, errorclass, errorstring);
     fflush(stderr); /* almost certainly redundant with the following... */
+
     MPI_Abort(MPI_COMM_WORLD, errorclass);
     
     return;
