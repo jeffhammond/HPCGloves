@@ -1,7 +1,7 @@
 FLAGS = -g -O2 -Wall
 
-CC = mpicc
-FC = mpif90
+CC = /Users/jhammond/eclipse/MPICH/git/install-large-clang/bin/mpicc
+#FC = mpif90
 LD = $(CC)
 
 # C99 is required for our coding style.

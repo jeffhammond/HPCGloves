@@ -60,27 +60,34 @@ int main(int argc, char * argv[])
         MPI_ASSERT(MPI_Isend(sbuf, 1, bigtype, size-1, 0, MPI_COMM_WORLD, &(requests[0]) ));
     }
 
-    MPI_Count ocount;
+    MPI_Count ocount[2];
 
     if (size==1) {
         MPI_ASSERT(MPI_Waitall(2, requests, statuses));
-        MPI_ASSERT(MPI_Get_elements_x( &(statuses[1]), MPI_CHAR, &ocount));
-        printf("ocount = %lld \n", ocount);
+        MPI_ASSERT(MPI_Get_elements_x( &(statuses[1]), MPI_CHAR, &(ocount[1])));
     }
     else {
         if (rank==(size-1)) {
             MPI_ASSERT(MPI_Wait( &(requests[1]), &(statuses[1]) ));
-            MPI_ASSERT(MPI_Get_elements_x( &(statuses[1]), MPI_CHAR, &ocount));
-            MPI_Count errors = 0;
-            for (MPI_Count i=0; i<count; i++)
-                errors += ( rbuf[i] != 'z' );
-            printf("errors = %lld \n", errors);
+            MPI_ASSERT(MPI_Get_elements_x( &(statuses[1]), MPI_CHAR, &(ocount[1]) ));
         } else if (rank==0) {
             MPI_ASSERT(MPI_Wait( &(requests[0]), &(statuses[0]) ));
-            MPI_ASSERT(MPI_Get_elements_x( &(statuses[0]), MPI_CHAR, &ocount));
+            MPI_ASSERT(MPI_Get_elements_x( &(statuses[0]), MPI_CHAR, &(ocount[0]) ));
         }
-        if (rank==0 || rank==(size-1) )
-            printf("ocount = %lld \n", ocount);
+    }
+
+    if (rank==0) {
+        printf("ocount[0] = %lld \n", ocount[0]);
+    } else if ( rank==(size-1) ) {
+        printf("ocount[1] = %lld \n", ocount[1]);
+    }
+
+    /* correctness check */
+    if (rank==(size-1)) {
+        MPI_Count errors = 0;
+        for (MPI_Count i=0; i<count; i++)
+            errors += ( rbuf[i] != 'z' );
+        printf("errors = %lld \n", errors);
     }
 
 #ifdef USE_MPI_ALLOC_MEM
