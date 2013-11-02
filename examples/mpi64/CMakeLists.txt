@@ -7,7 +7,7 @@ if(MPI_FOUND)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${MPI_COMPILE_FLAGS}")
     include_directories(${MPI_INCLUDE_PATH})
 else()
-    message(FATAL_ERROR "-- This example requires MP, but CMake could not find any MPI installation, check $PATH")
+    message(FATAL_ERROR "-- This example requires MPI, but CMake could not find any MPI installation, check $PATH")
 endif()
 
 
